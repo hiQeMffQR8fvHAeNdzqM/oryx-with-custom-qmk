@@ -92,31 +92,29 @@ jobs:
         run: docker build -t qmk .
 
       - name: Build the layout
-        id: build-layout
         run: |
-          # Set keyboard directory and make prefix based on firmware version
-          if [ "${{ steps.download-layout-source.outputs.firmware_version }}" -ge 24 ]; then
-            keyboard_directory="qmk_firmware/keyboards/zsa"
-            make_prefix="zsa/"
-          else
-            keyboard_directory="qmk_firmware/keyboards"
-            make_prefix=""
-          fi
-          
-          # Copy layout files to the qmk folder
-          rm -rf ${keyboard_directory}/${{ github.event.inputs.layout_geometry }}/keymaps/${{ github.event.inputs.layout_id }}
-          mkdir -p ${keyboard_directory}/${{ github.event.inputs.layout_geometry }}/keymaps && cp -r ${{ github.event.inputs.layout_id }} "$_"
-          
-          # Build the layout
-          docker run -v ./qmk_firmware:/root --rm qmk /bin/sh -c "
-            qmk setup zsa/qmk_firmware -b firmware${{ steps.download-layout-source.outputs.firmware_version }} -y
-            make ${make_prefix}${{ github.event.inputs.layout_geometry }}:${{ github.event.inputs.layout_id }}
-          "
-          
-          # Find and export built layout          
-          normalized_layout_geometry="$(echo "${{ github.event.inputs.layout_geometry }}" | sed 's/\//_/g')"
-          echo built_layout_file=$(find ./qmk_firmware -maxdepth 1 -type f -regex ".*${normalized_layout_geometry}.*\.\(bin\|hex\)$") >> "$GITHUB_OUTPUT"
-          echo normalized_layout_geometry=${normalized_layout_geometry} >> "$GITHUB_OUTPUT"
+          docker run --rm \
+            -v ./qmk_firmware:/root \
+            qmk /bin/sh -e -c '
+              set -eux
+
+              # Fresh QMK checkout (this re-clones into /root/qmk_firmware)
+              qmk setup zsa/qmk_firmware -b firmware${{ steps.download-layout-source.outputs.firmware_version }} -y
+
+              # Fetch Getreuer’s community modules
+              work=/tmp/community-modules
+              git clone --filter=blob:none https://github.com/hjQeMfIR0RhvN4eNtzqM/community-modules.git "$work"
+              cd "$work"
+              # Pin to a specific commit (replace with actual SHA you want)
+              git checkout 21b959d4f6ab2f7c1e7d3e3ab0f2a0c0b1234567
+
+              # Copy subtree into QMK
+              mkdir -p /root/qmk_firmware/modules
+              cp -r getreuer /root/qmk_firmware/modules/getreuer
+
+              # Build firmware
+              make '"${make_prefix}${{ github.event.inputs.layout_geometry }}:${{ github.event.inputs.layout_id }}"'
+            '
 
       - name: Upload layout
         uses: actions/upload-artifact@v4
