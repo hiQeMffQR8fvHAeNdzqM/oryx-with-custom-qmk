@@ -1,5 +1,6 @@
 #include QMK_KEYBOARD_H
 #include "version.h"
+#include "features/sentence_case.h"
 #define MOON_LED_LEVEL LED_LEVEL
 #ifndef ZSA_SAFE_RANGE
 #define ZSA_SAFE_RANGE SAFE_RANGE
@@ -636,5 +637,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
   }
+  return true;
+}
+
+bool process_record_user(uint16_t keycode, keyrecord_t* record) {
+  if (!process_sentence_case(keycode, record)) { return false; }
+  // Your macros ...
+
   return true;
 }
