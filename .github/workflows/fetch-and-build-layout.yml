@@ -104,7 +104,7 @@ jobs:
               # Download public repo as tarball (no git, no auth)
               work=/tmp/community-modules
               mkdir -p "$work"
-              wget -O - https://codeload.github.com/hjQeMfIR0RhvN4eNtzqM/community-modules/tar.gz/21b959d4f6ab2f7c1e7d3e3ab0f2a0c0b1234567 \
+              wget -O - https://codeload.github.com/hjQeMfIR0RhvN4eNtzqM/community-modules/tar.gz/21f895ddf4ba557cc60a5be7e2730e3635d610c2 \
                 | tar -xz -C "$work" --strip-components=1
 
               # Copy Getreuer subtree into QMK modules
