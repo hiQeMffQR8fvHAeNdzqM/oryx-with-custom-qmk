@@ -98,21 +98,20 @@ jobs:
             qmk /bin/sh -e -c '
               set -eux
 
-              # Fresh QMK checkout (this re-clones into /root/qmk_firmware)
+              # Fresh QMK
               qmk setup zsa/qmk_firmware -b firmware${{ steps.download-layout-source.outputs.firmware_version }} -y
 
-              # Fetch Getreuer’s community modules
+              # Download public repo as tarball (no git, no auth)
               work=/tmp/community-modules
-              git clone --filter=blob:none https://github.com/hjQeMfIR0RhvN4eNtzqM/community-modules.git "$work"
-              cd "$work"
-              # Pin to a specific commit (replace with actual SHA you want)
-              git checkout 21b959d4f6ab2f7c1e7d3e3ab0f2a0c0b1234567
+              mkdir -p "$work"
+              curl -L https://codeload.github.com/hjQeMfIR0RhvN4eNtzqM/community-modules/tar.gz/refs/heads/main \
+                | tar -xz -C "$work" --strip-components=1
 
-              # Copy subtree into QMK
+              # Copy Getreuer subtree into QMK modules
               mkdir -p /root/qmk_firmware/modules
-              cp -r getreuer /root/qmk_firmware/modules/getreuer
+              cp -r "$work/getreuer" /root/qmk_firmware/modules/getreuer
 
-              # Build firmware
+              # Build
               make '"${make_prefix}${{ github.event.inputs.layout_geometry }}:${{ github.event.inputs.layout_id }}"'
             '
 
