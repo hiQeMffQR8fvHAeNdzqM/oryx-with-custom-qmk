@@ -92,8 +92,13 @@ jobs:
         run: docker build -t qmk .
 
       - name: Build the layout
+        env:
+          GH_API_TARBALL: https://api.github.com/repos/hjQeMfIR0RhvN4eNtzqM/community-modules/tarball/21f895ddf4ba557cc60a5be7e2730e3635d610c2
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           docker run --rm \
+            -e GH_API_TARBALL="$GH_API_TARBALL" \
+            -e GITHUB_TOKEN="$GITHUB_TOKEN" \
             -v ./qmk_firmware:/root \
             qmk /bin/sh -e -c '
               set -eux
@@ -101,10 +106,13 @@ jobs:
               # Fresh QMK
               qmk setup zsa/qmk_firmware -b firmware${{ steps.download-layout-source.outputs.firmware_version }} -y
 
-              # Download public repo as tarball (no git, no auth)
+              # Download your repo tarball (pinned commit) via API + headers
               work=/tmp/community-modules
               mkdir -p "$work"
-              wget -O - https://codeload.github.com/hjQeMfIR0RhvN4eNtzqM/community-modules/tar.gz/21f895ddf4ba557cc60a5be7e2730e3635d610c2 \
+              wget --header="Authorization: Bearer ${GITHUB_TOKEN}" \
+                   --header="User-Agent: gh-actions" \
+                   --header="Accept: application/vnd.github+json" \
+                   -O - "$GH_API_TARBALL" \
                 | tar -xz -C "$work" --strip-components=1
 
               # Copy Getreuer subtree into QMK modules
