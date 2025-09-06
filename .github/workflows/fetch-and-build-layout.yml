@@ -106,16 +106,17 @@ jobs:
               # Fresh QMK
               qmk setup zsa/qmk_firmware -b firmware${{ steps.download-layout-source.outputs.firmware_version }} -y
 
-              # Download your repo tarball (pinned commit) via API + headers
+              # Download community-modules tarball (pinned commit) via API with required headers
               work=/tmp/community-modules
               mkdir -p "$work"
-              wget --header="Authorization: Bearer ${GITHUB_TOKEN}" \
-                   --header="User-Agent: gh-actions" \
-                   --header="Accept: application/vnd.github+json" \
-                   -O - "$GH_API_TARBALL" \
+              wget \
+                --header="Authorization: Bearer ${GITHUB_TOKEN}" \
+                --header="User-Agent: gh-actions" \
+                --header="Accept: application/vnd.github+json" \
+                -O - "$GH_API_TARBALL" \
                 | tar -xz -C "$work" --strip-components=1
 
-              # Copy Getreuer subtree into QMK modules
+              # Install modules
               mkdir -p /root/qmk_firmware/modules
               cp -r "$work/getreuer" /root/qmk_firmware/modules/getreuer
 
