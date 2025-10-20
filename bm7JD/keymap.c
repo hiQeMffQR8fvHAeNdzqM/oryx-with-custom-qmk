@@ -5,6 +5,8 @@
 #define ZSA_SAFE_RANGE SAFE_RANGE
 #endif
 
+#include "features/sentence_case.h"
+
 enum custom_keycodes {
   RGB_SLD = ZSA_SAFE_RANGE,
   HSV_0_255_255,
@@ -607,5 +609,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
   }
+
+  if (!process_sentence_case(keycode, record)) { return false; }
+  
   return true;
 }
