@@ -45,15 +45,15 @@ enum tap_dance_codes {
   DANCE_0,
 };
 
-#define DUAL_FUNC_0 LT(10, KC_F12)
-#define DUAL_FUNC_1 LT(11, KC_A)
-#define DUAL_FUNC_2 LT(11, KC_F18)
-#define DUAL_FUNC_3 LT(6, KC_U)
-#define DUAL_FUNC_4 LT(2, KC_F2)
+#define DUAL_FUNC_0 LT(7, KC_D)
+#define DUAL_FUNC_1 LT(10, KC_F5)
+#define DUAL_FUNC_2 LT(11, KC_F2)
+#define DUAL_FUNC_3 LT(12, KC_F2)
+#define DUAL_FUNC_4 LT(2, KC_4)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [0] = LAYOUT_voyager(
-    KC_ESCAPE,      KC_NO,          KC_NO,          KC_NO,          DUAL_FUNC_0,    DUAL_FUNC_1,                                    KC_ENTER,       KC_CAPS,        KC_NO,          KC_NO,          OSL(6),         OSL(7),         
+    KC_ESCAPE,      OSL(1),         KC_NO,          KC_NO,          DUAL_FUNC_0,    DUAL_FUNC_1,                                    KC_ENTER,       KC_CAPS,        KC_NO,          KC_NO,          OSL(6),         OSL(7),         
     DUAL_FUNC_2,    KC_B,           KC_F,           KC_L,           KC_K,           KC_Q,                                           KC_P,           KC_G,           KC_O,           KC_U,           KC_QUES,        KC_NO,          
     DUAL_FUNC_3,    KC_N,           KC_S,           KC_H,           KC_T,           KC_M,                                           KC_Y,           KC_C,           KC_A,           KC_E,           KC_I,           KC_NO,          
     TD(DANCE_0),    KC_X,           KC_V,           KC_J,           KC_D,           KC_Z,                                           KC_DOT,         KC_W,           KC_COMMA,       KC_QUOTE,       KC_SCLN,        OSL(5),         
