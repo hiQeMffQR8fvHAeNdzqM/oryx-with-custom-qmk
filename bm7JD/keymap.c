@@ -7,8 +7,8 @@
 #endif
 
 enum custom_keycodes {
-  OSL1_R, OSL3_MAG, OSL4_TAB, OSL2_SPC,
   RGB_SLD = ZSA_SAFE_RANGE,
+  OSL1_R, OSL3_MAG, OSL4_TAB, OSL2_SPC,
   ST_MACRO_0,
   ST_MACRO_1,
   ST_MACRO_2,
