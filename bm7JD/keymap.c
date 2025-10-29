@@ -1,3 +1,4 @@
+#include "features/sentence_case.h"
 #include QMK_KEYBOARD_H
 #include "version.h"
 #define MOON_LED_LEVEL LED_LEVEL
