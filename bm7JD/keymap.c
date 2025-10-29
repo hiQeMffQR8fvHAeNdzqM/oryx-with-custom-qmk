@@ -291,6 +291,7 @@ tap_dance_action_t tap_dance_actions[] = {
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  if (!process_sentence_case(keycode, record)) { return false; }
   switch (keycode) {
     case ST_MACRO_0:
     if (record->event.pressed) {
