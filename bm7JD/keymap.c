@@ -45,11 +45,11 @@ enum tap_dance_codes {
   DANCE_0,
 };
 
-#define DUAL_FUNC_0 LT(11, KC_5)
-#define DUAL_FUNC_1 LT(13, KC_5)
-#define DUAL_FUNC_2 LT(9, KC_F11)
-#define DUAL_FUNC_3 LT(10, KC_5)
-#define DUAL_FUNC_4 LT(7, KC_K)
+#define DUAL_FUNC_0 LT(10, KC_F12)
+#define DUAL_FUNC_1 LT(11, KC_A)
+#define DUAL_FUNC_2 LT(11, KC_F18)
+#define DUAL_FUNC_3 LT(6, KC_U)
+#define DUAL_FUNC_4 LT(2, KC_F2)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [0] = LAYOUT_voyager(
@@ -64,14 +64,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                                          LCTL(LSFT(KC_DOWN)),KC_LEFT,        KC_DOWN,        KC_RIGHT,       KC_NO,          KC_NO,          
     KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                                          KC_NO,          OSM(MOD_RSFT),  OSM(MOD_RCTL),  OSM(MOD_RALT),  OSM(MOD_RGUI),  KC_NO,          
     KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                                          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          
-                                                    KC_NO,          KC_NO,                                          KC_TAB,         KC_SPACE
+                                                    KC_TRANSPARENT, KC_NO,                                          KC_TAB,         KC_SPACE
   ),
   [2] = LAYOUT_voyager(
     TO(0),          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                                          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          
     KC_NO,          KC_NO,          KC_SLASH,       KC_NO,          KC_NO,          KC_NO,                                          ST_MACRO_0,     KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          
     KC_NO,          OSM(MOD_LGUI),  OSM(MOD_LALT),  OSM(MOD_LCTL),  OSM(MOD_LSFT),  KC_NO,                                          KC_NO,          KC_COLN,        KC_AT,          KC_EXLM,        KC_NO,          KC_NO,          
     KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_DQUO,        KC_NO,                                          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          
-                                                    KC_NO,          KC_NO,                                          KC_NO,          KC_NO
+                                                    KC_NO,          KC_NO,                                          KC_NO,          KC_TRANSPARENT
   ),
   [3] = LAYOUT_voyager(
     TO(0),          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                                          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          
@@ -85,7 +85,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_NO,          KC_BSLS,        KC_SLASH,       KC_LABK,        KC_KP_ASTERISK, KC_NO,                                          KC_KP_PLUS,     KC_RABK,        KC_NO,          KC_UNDS,        KC_NO,          KC_NO,          
     KC_NO,          KC_HASH,        ST_MACRO_2,     KC_CIRC,        KC_TILD,        KC_MINUS,                                       KC_NO,          ST_MACRO_3,     KC_AMPR,        KC_EQUAL,       KC_PIPE,        KC_NO,          
     KC_NO,          KC_NO,          KC_GRAVE,       KC_NO,          KC_DLR,         KC_NO,                                          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          
-                                                    KC_PERC,        KC_NO,                                          KC_NO,          KC_NO
+                                                    KC_PERC,        KC_NO,                                          KC_TRANSPARENT, KC_NO
   ),
   [5] = LAYOUT_voyager(
     TO(0),          LCTL(RSFT(KC_P)),KC_NO,          KC_NO,          KC_NO,          KC_NO,                                          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          
