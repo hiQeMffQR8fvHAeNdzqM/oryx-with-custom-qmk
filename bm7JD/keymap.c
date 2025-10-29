@@ -7,6 +7,7 @@
 #endif
 
 enum custom_keycodes {
+  OSL1_R, OSL3_MAG, OSL4_TAB, OSL2_SPC,
   RGB_SLD = ZSA_SAFE_RANGE,
   ST_MACRO_0,
   ST_MACRO_1,
@@ -58,7 +59,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     DUAL_FUNC_2,    KC_B,           KC_F,           KC_L,           KC_K,           KC_Q,                                           KC_P,           KC_G,           KC_O,           KC_U,           KC_QUES,        KC_NO,          
     DUAL_FUNC_3,    KC_N,           KC_S,           KC_H,           KC_T,           KC_M,                                           KC_Y,           KC_C,           KC_A,           KC_E,           KC_I,           KC_NO,          
     TD(DANCE_0),    KC_X,           KC_V,           KC_J,           KC_D,           KC_Z,                                           KC_DOT,         KC_W,           KC_COMMA,       KC_QUOTE,       KC_SCLN,        OSL(5),         
-                                                    LT(1, KC_R),    OSL(3),                                         LT(4, KC_TAB),  LT(2, KC_SPACE)
+                                                    OSL1_R,         OSL3_MAG,                                      OSL4_TAB,        OSL2_SPC
   ),
   [1] = LAYOUT_voyager(
     TO(0),          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                                          LCTL(LSFT(KC_UP)),KC_HOME,        KC_UP,          KC_END,         KC_NO,          KC_NO,          
@@ -291,9 +292,60 @@ tap_dance_action_t tap_dance_actions[] = {
         [DANCE_0] = ACTION_TAP_DANCE_FN_ADVANCED(on_dance_0, dance_0_finished, dance_0_reset),
 };
 
+static uint16_t osl1_timer, osl2_timer, osl3_timer, osl4_timer;
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (!process_sentence_case(keycode, record)) { return false; }
+  
   switch (keycode) {
+        case OSL1_R:
+      if (record->event.pressed) {
+        osl1_timer = timer_read();
+      } else {
+        if (timer_elapsed(osl1_timer) < TAPPING_TERM) {
+          tap_code16(KC_R);
+        } else {
+          tap_code16(OSL(1));
+        }
+      }
+      return false;
+
+    case OSL3_MAG:
+      if (record->event.pressed) {
+        osl3_timer = timer_read();
+      } else {
+        if (timer_elapsed(osl3_timer) < TAPPING_TERM) {
+          tap_code16(KC_F19);           // your “sequence token” key; change later if needed
+        } else {
+          tap_code16(OSL(3));
+        }
+      }
+      return false;
+
+    case OSL4_TAB:
+      if (record->event.pressed) {
+        osl4_timer = timer_read();
+      } else {
+        if (timer_elapsed(osl4_timer) < TAPPING_TERM) {
+          tap_code16(KC_TAB);
+        } else {
+          tap_code16(OSL(4));
+        }
+      }
+      return false;
+
+    case OSL2_SPC:
+      if (record->event.pressed) {
+        osl2_timer = timer_read();
+      } else {
+        if (timer_elapsed(osl2_timer) < TAPPING_TERM) {
+          tap_code16(KC_SPACE);
+        } else {
+          tap_code16(OSL(2));
+        }
+      }
+      return false;
+    
     case ST_MACRO_0:
     if (record->event.pressed) {
       SEND_STRING(SS_LSFT(SS_TAP(X_9))SS_DELAY(100)  SS_LSFT(SS_TAP(X_0))SS_DELAY(100)  SS_TAP(X_LEFT));
